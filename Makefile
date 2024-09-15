@@ -1,6 +1,6 @@
 NAME	= miniRT
 
-CC		= cc
+CC		= cc -g #-fsanitize=address #-fsanitize=memory
 RM		= rm -rf
 
 CFLAGS 	= -Wall -Wextra -Werror

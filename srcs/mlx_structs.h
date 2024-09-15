@@ -6,7 +6,7 @@
 /*   By: jyap <jyap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 16:57:24 by jyap              #+#    #+#             */
-/*   Updated: 2024/09/14 20:25:41 by jyap             ###   ########.fr       */
+/*   Updated: 2024/09/15 10:57:54 by jyap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ typedef struct s_mlxs
 	void	*mlx_win;
 	t_image	img;
 	t_scene	*sc;
+	t_obj	*new_obj;
 }	t_mlxs;
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: jyap <jyap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 18:44:49 by jyap              #+#    #+#             */
-/*   Updated: 2024/09/14 18:56:57 by jyap             ###   ########.fr       */
+/*   Updated: 2024/09/15 12:50:33 by jyap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,19 +21,17 @@ bool	is_float(char *str)
 	dot_found = false;
 	if (str[0] == '+' || str[0] == '-')
 		i++;
+	if (!(str[i] >= '0' && str[i] <= '9'))
+		return (false);
 	while (str[i])
 	{
 		if (str[i] >= '0' && str[i] <= '9')
 			i++;
-		else if (str[i] == '.')
+		else if (str[i] == '.' && dot_found == false)
 		{
-			if (dot_found)
-				return (false);
 			dot_found = true;
 			i++;
-			if (str[i] >= '0' && str[i] <= '9')
-				i++;
-			else
+			if (!(str[i] >= '0' && str[i] <= '9'))
 				return (false);
 		}
 		else

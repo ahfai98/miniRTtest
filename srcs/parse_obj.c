@@ -6,7 +6,7 @@
 /*   By: jyap <jyap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 20:27:51 by jyap              #+#    #+#             */
-/*   Updated: 2024/09/14 20:48:49 by jyap             ###   ########.fr       */
+/*   Updated: 2024/09/15 14:10:55 by jyap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,131 +36,101 @@ void	object_add_end(t_obj **lst, t_obj *new)
 	last->next = new;
 }
 
-void	parse_obj(char *line, t_mlxs *mlxs, int type)
+void	parse_obj(char *line, t_mlxs *mlxs, t_obj_type type)
 {
 	t_obj	*new_obj;
 
 	new_obj = ft_calloc(sizeof(t_obj), 1);
 	if (new_obj == NULL)
+		print_err_exit("Malloc failed.\n", &mlxs, line);
+	mlxs->new_obj = new_obj;
+	if (type == PLANE)
 	{
-		free_scene(mlxs->sc);
-		print_err_exit("Malloc failed.\n", mlxs, 1);
-	}
-	if (type == 1)
-	{
-		new_obj->type = 1;
+		new_obj->type = PLANE;
 		new_obj->obj_ptr = ft_calloc(sizeof(t_plane), 1);
 		if (new_obj->obj_ptr == NULL)
-		{
-			free(new_obj);
-			free_scene(mlxs->sc);
-			print_err_exit("Malloc failed.\n", mlxs, 1);
-		}
-		new_obj->obj_ptr = parse_plane(line, new_obj, mlxs);
+			print_err_exit("Malloc failed.\n", &mlxs, line);
+		parse_plane(line, mlxs, new_obj);
 	}
-	else if (type == 2)
+	else if (type == SPHERE)
 	{
-		new_obj->type = 2;
+		new_obj->type = SPHERE;
 		new_obj->obj_ptr = ft_calloc(sizeof(t_sphere), 1);
 		if (new_obj->obj_ptr == NULL)
-		{
-			free(new_obj);
-			free_scene(mlxs->sc);
-			print_err_exit("Malloc failed.\n", mlxs, 1);
-		}
-		new_obj->obj_ptr = parse_sphere(line, new_obj, mlxs);
+			print_err_exit("Malloc failed.\n", &mlxs, line);
+		parse_sphere(line, mlxs, new_obj);
 	}
-	else if (type == 3)
+	else if (type == CYLINDER)
 	{
-		new_obj->type = 3;
+		new_obj->type = CYLINDER;
 		new_obj->obj_ptr = ft_calloc(sizeof(t_cylinder), 1);
 		if (new_obj->obj_ptr == NULL)
-		{
-			free(new_obj);
-			free_scene(mlxs->sc);
-			print_err_exit("Malloc failed.\n", mlxs, 1);
-		}
-		new_obj->obj_ptr = parse_cylinder(line, new_obj, mlxs);
+			print_err_exit("Malloc failed.\n", &mlxs, line);
+		parse_cylinder(line, mlxs, new_obj);
 	}
 	new_obj->next = NULL;
 	object_add_end(&mlxs->sc->obj, new_obj);
+	mlxs->new_obj = NULL;
 }
 
-t_plane	plane_parsing(char *line)
+void	parse_plane(char *line, t_mlxs *mlxs, t_obj *new_obj)
 {
-	int			i;
-	char		**tab;
-	t_plane		plane;
+	char		**split;
+	t_plane		*plane;
 
-	i = 0;
-	tab = ft_split(line, ' ');
-	ft_bzero(&plane, sizeof(t_plane));
-	plane.id = "pl";
-	if (count_elements(tab) != 4)
-		print_error("wrong number of elements for plane");
-	while (tab[++i])
+	split = ft_split(line, ' ');
+	if (split == NULL)
+		print_err_exit("Mallco ft_split failed.\n", &mlxs, line);
+	plane = (t_plane *)new_obj->obj_ptr;
+	if (count_arr_elements(split) != 4)
 	{
-		if (i == 1)
-			plane.coord = parse_coord(tab[i], plane.coord);
-		else if (i == 2)
-			plane.ori = parse_vector(tab[i], plane.ori);
-		else if (i == 3)
-			plane.color = parse_color(tab[i], plane.color);
+		free_str_arr(split);
+		print_err_exit("Invalid info for Plane.\n", &mlxs, line);
 	}
-	free_tab(tab);
-	return (plane);
+	plane->pos = parse_coord(split, 1, line, mlxs);
+	plane->norm = parse_vector(split, 2, line, mlxs);
+	plane->color = parse_color(split, 3, line, mlxs);
+	free_str_arr(split);
 }
 
-t_sphere	sphere_parsing(char *line)
+void	parse_sphere(char *line, t_mlxs *mlxs, t_obj *new_obj)
 {
-	int			i;
-	char		**tab;
-	t_sphere	sphere;
+	char		**split;
+	t_sphere	*sphere;
 
-	i = 0;
-	tab = ft_split(line, ' ');
-	ft_bzero(&sphere, sizeof(t_sphere));
-	sphere.id = "sp";
-	if (count_elements(tab) != 4)
-		print_error("wrong number of elements for sphere");
-	while (tab[++i])
+	split = ft_split(line, ' ');
+	if (split == NULL)
+		print_err_exit("Mallco ft_split failed.\n", &mlxs, line);
+	sphere = (t_sphere *)new_obj->obj_ptr;
+	if (count_arr_elements(split) != 4)
 	{
-		if (i == 1)
-			sphere.coord = parse_coord(tab[i], sphere.coord);
-		else if (i == 2)
-			sphere.r = parse_other(tab[i], sphere.r, 2) / 2;
-		else if (i == 3)
-			sphere.color = parse_color(tab[i], sphere.color);
+		free_str_arr(split);
+		print_err_exit("Invalid info for Sphere.\n", &mlxs, line);
 	}
-	free_tab(tab);
-	return (sphere);
+	sphere->pos = parse_coord(split, 1, line, mlxs);
+	sphere->dia = parse_dia_height(split, 2, line, mlxs);
+	sphere->color = parse_color(split, 3, line, mlxs);
+	free_str_arr(split);
 }
 
-t_cylinder	cylinder_parsing(char *line)
+void	parse_cylinder(char *line, t_mlxs *mlxs, t_obj *new_obj)
 {
-	int			i;
-	char		**tab;
-	t_cylinder	cylinder;
+	char		**split;
+	t_cylinder	*cylinder;
 
-	i = 0;
-	tab = ft_split(line, ' ');
-	ft_bzero(&cylinder, sizeof(t_cylinder));
-	cylinder.id = "cy";
-	if (count_elements(tab) != 6)
-		print_error("wrong number of elements for cylinder");
-	while (tab[++i])
+	split = ft_split(line, ' ');
+	if (split == NULL)
+		print_err_exit("Mallco ft_split failed.\n", &mlxs, line);
+	cylinder = (t_cylinder *)new_obj->obj_ptr;
+	if (count_arr_elements(split) != 6)
 	{
-		if (i == 1)
-			cylinder.coord = parse_coord(tab[i], cylinder.coord);
-		else if (i == 2)
-			cylinder.norm_vec = parse_vector(tab[i], cylinder.norm_vec);
-		else if (i == 3)
-			cylinder.r = parse_other(tab[i], cylinder.r, 2) / 2;
-		else if (i == 4)
-			cylinder.h = parse_other(tab[i], cylinder.h, 2);
-		else if (i == 5)
-			cylinder.color = parse_color(tab[i], cylinder.color);
+		free_str_arr(split);
+		print_err_exit("Invalid info for Cylinder.\n", &mlxs, line);
 	}
-	free_tab(tab);
-	return (cylinder);
+	cylinder->pos = parse_coord(split, 1, line, mlxs);
+	cylinder->norm_axis = parse_vector(split, 2, line, mlxs);
+	cylinder->dia = parse_dia_height(split, 3, line, mlxs);
+	cylinder->height = parse_dia_height(split, 4, line, mlxs);
+	cylinder->color = parse_color(split, 5, line, mlxs);
+	free_str_arr(split);
 }

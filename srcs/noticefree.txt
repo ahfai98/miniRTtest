@@ -1,3 +1,0 @@
-free (line)
-for each parse that has failed
-especially for each vector, coordinate, color, fov, dia, height,

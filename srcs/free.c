@@ -6,57 +6,80 @@
 /*   By: jyap <jyap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 18:13:50 by jyap              #+#    #+#             */
-/*   Updated: 2024/09/14 18:34:50 by jyap             ###   ########.fr       */
+/*   Updated: 2024/09/15 14:09:48 by jyap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "prototypes.h"
 
-void	free_double_array(char **arr)
+void	free_str_arr(char **arr)
 {
 	int	i;
 
+	if (arr == NULL)
+		return ;
 	i = -1;
 	while (arr[++i])
 		free(arr[i]);
 	free(arr);
 }
 
-
-void	free_obj_list(t_scene *sc)
+void	free_two_str_arr(char **arr1, char **arr2)
 {
-	t_obj	*obj;
+	free_str_arr(arr1);
+	free_str_arr(arr2);
+}
 
-	while (sc->obj)
+void	free_obj_list(t_obj *obj)
+{
+	t_obj	*tmp;
+
+	if (obj == NULL)
+		return ;
+	while (obj)
 	{
-		obj = sc->obj->next;
-		free(obj->obj_ptr);
-		free(sc->obj);
-		sc->obj = obj;
+		tmp = obj->next;
+		if (obj->obj_ptr != NULL)
+		{
+			free(obj->obj_ptr);
+			obj->obj_ptr = NULL;
+		}
+		free(obj);
+		obj = tmp;
 	}
 }
 
-void free_scene(t_scene **sc)
+void free_scene(t_scene *sc)
 {
-	if (sc == NULL || *sc == NULL)
+	if (sc == NULL)
 		return;
-	if ((*sc)->obj != NULL)
-		free_obj_list(*sc);
-	free(*sc);
-	*sc = NULL;
+	if (sc->obj != NULL)
+		free_obj_list(sc->obj);
+	free(sc);
 }
 
 void	free_all(t_mlxs *mlxs)
 {
 	if (mlxs)
 	{
-		if (mlxs->img.img)  // Free image using MiniLibX functions
+		if (mlxs->img.img)
 			mlx_destroy_image(mlxs->mlx, mlxs->img.img);
-		if (mlxs->mlx_win)  // Destroy the window
+		if (mlxs->mlx_win)
 			mlx_destroy_window(mlxs->mlx, mlxs->mlx_win);
-		if (mlxs->mlx)  // Destroy the display connection (Linux only)
+		if (mlxs->mlx)
 			mlx_destroy_display(mlxs->mlx);
+		if (mlxs->new_obj != NULL)
+		{
+			if (mlxs->new_obj->obj_ptr != NULL)
+			{
+				free(mlxs->new_obj->obj_ptr);
+				mlxs->new_obj->obj_ptr = NULL;
+			}
+			free(mlxs->new_obj);
+			mlxs->new_obj = NULL;
+		}
 		free_scene(mlxs->sc);
-		free(mlxs);  // Free the mlx structure
+		mlxs->sc = NULL;
+		free(mlxs);
 	}
 }

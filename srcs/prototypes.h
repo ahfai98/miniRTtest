@@ -6,7 +6,7 @@
 /*   By: jyap <jyap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 17:09:38 by jyap              #+#    #+#             */
-/*   Updated: 2024/09/14 20:27:35 by jyap             ###   ########.fr       */
+/*   Updated: 2024/09/15 13:54:59 by jyap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,13 @@
 #include <errno.h>
 #include <stdbool.h>
 
-void	print_err_exit(char *msg, void *ptr, int exit_n);
+void	print_err_exit(char *msg, t_mlxs **mlxs, char *ptr);
 void	print_err(char *msg, void *ptr);
 
 void	parse(char *name, t_mlxs *mlxs);
 
-void 	free_scene(t_scene **sc);
-void	free_double_array(char **arr);
+void 	free_scene(t_scene *sc);
+void	free_str_arr(char **arr);
 
 void	parse_amb(char *line, t_mlxs *mlxs);
 void	parse_light(char *line, t_mlxs *mlxs);
@@ -46,12 +46,12 @@ void	parse_camera(char *line, t_mlxs *mlxs);
 
 int		count_arr_elements(char **arr);
 
-float	parse_ratio(char **str, int i, float ratio, t_mlxs *mlxs);
-t_color	parse_color(char **str, int i, t_color colors, t_mlxs *mlxs);
-t_vect	parse_coord(char **str, int i, t_vect points, t_mlxs *mlxs);
-t_vect	parse_vector(char **str, int i, t_vect points, t_mlxs *mlxs);
-int		parse_camera_fov(char **str, int i, int fov, t_mlxs *mlxs);
-float	parse_dia_height(char **str, int i, float element, t_mlxs *mlxs);
+float	parse_ratio(char **str, int i, char *line, t_mlxs *mlxs);
+t_color	parse_color(char **str, int i, char *line, t_mlxs *mlxs);
+t_vect	parse_coord(char **str, int i, char *line, t_mlxs *mlxs);
+t_vect	parse_vector(char **str, int i, char *line, t_mlxs *mlxs);
+unsigned char		parse_camera_fov(char **str, int i, char *line, t_mlxs *mlxs);
+float	parse_dia_height(char **str, int i, char *line, t_mlxs *mlxs);
 
 bool	is_float(char *str);
 bool	is_range(float number);
@@ -61,6 +61,14 @@ float	str_to_float(char *str);
 void	parse_light(char *line, t_mlxs *mlxs);
 void	parse_camera(char *line, t_mlxs *mlxs);
 void	parse_amb(char *line, t_mlxs *mlxs);
-void	parse_obj(char *line, t_mlxs *mlxs, int type);
+void	parse_obj(char *line, t_mlxs *mlxs, t_obj_type type);
+
+void	free_two_str_arr(char **arr1, char **arr2);
+
+void	free_all(t_mlxs *mlxs);
+
+void	parse_plane(char *line, t_mlxs *mlxs, t_obj *new_obj);
+void	parse_sphere(char *line, t_mlxs *mlxs, t_obj *new_obj);
+void	parse_cylinder(char *line, t_mlxs *mlxs, t_obj *new_obj);
 
 #endif
