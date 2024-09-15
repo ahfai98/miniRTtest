@@ -6,7 +6,7 @@
 /*   By: jyap <jyap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 17:09:38 by jyap              #+#    #+#             */
-/*   Updated: 2024/09/15 19:13:23 by jyap             ###   ########.fr       */
+/*   Updated: 2024/09/15 20:38:55 by jyap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,6 @@
 
 # define WIN_W 500
 # define WIN_H 500
-
-# define M_PI 3.1415926535897932
 
 void	print_err_exit(char *msg, t_mlxs **mlxs, char *ptr);
 void	print_err(char *msg, void *ptr);
@@ -96,5 +94,10 @@ void	closest_inter(t_mlxs *mlxs, t_ray *ray);
 t_inter	*intersect_plane(t_ray *ray, t_plane *plane);
 t_inter	*intersect_sphere(t_ray *ray, t_sphere *sphere);
 t_inter	*intersect_cylinder(t_ray *ray, t_cylinder *cylinder);
+
+bool	is_intersection_valid(t_ray *ray, t_cylinder *cy, double t, double h);
+t_vect	cylinder_normal(t_vect P, t_cylinder *cylinder);
+int		quad_cylinder(t_ray *ray, t_inter *inter, t_cylinder *cylinder, t_vect X);
+
 
 #endif
