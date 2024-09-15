@@ -6,7 +6,7 @@
 /*   By: jyap <jyap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 17:09:38 by jyap              #+#    #+#             */
-/*   Updated: 2024/09/15 18:43:32 by jyap             ###   ########.fr       */
+/*   Updated: 2024/09/15 19:13:23 by jyap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,5 +91,10 @@ t_color	get_pixel_color(t_inter *inter);
 void	launch_rays_from_camera(t_mlxs *mlxs);
 
 bool	is_closest(t_inter *closest, t_inter *temp);
+void	closest_inter(t_mlxs *mlxs, t_ray *ray);
+
+t_inter	*intersect_plane(t_ray *ray, t_plane *plane);
+t_inter	*intersect_sphere(t_ray *ray, t_sphere *sphere);
+t_inter	*intersect_cylinder(t_ray *ray, t_cylinder *cylinder);
 
 #endif
