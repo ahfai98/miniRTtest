@@ -6,7 +6,7 @@
 /*   By: jyap <jyap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 18:44:49 by jyap              #+#    #+#             */
-/*   Updated: 2024/09/15 12:50:33 by jyap             ###   ########.fr       */
+/*   Updated: 2024/09/15 16:36:29 by jyap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ bool	is_float(char *str)
 	return (true);
 }
 
-bool	is_range(float number)
+bool	is_range(double number)
 {
 	if (number >= -1 && number <= 1)
 		return (true);

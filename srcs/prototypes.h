@@ -6,7 +6,7 @@
 /*   By: jyap <jyap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 17:09:38 by jyap              #+#    #+#             */
-/*   Updated: 2024/09/15 13:54:59 by jyap             ###   ########.fr       */
+/*   Updated: 2024/09/15 16:39:06 by jyap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,10 @@ t_color	parse_color(char **str, int i, char *line, t_mlxs *mlxs);
 t_vect	parse_coord(char **str, int i, char *line, t_mlxs *mlxs);
 t_vect	parse_vector(char **str, int i, char *line, t_mlxs *mlxs);
 unsigned char		parse_camera_fov(char **str, int i, char *line, t_mlxs *mlxs);
-float	parse_dia_height(char **str, int i, char *line, t_mlxs *mlxs);
+double	parse_dia_height(char **str, int i, char *line, t_mlxs *mlxs);
 
 bool	is_float(char *str);
-bool	is_range(float number);
+bool	is_range(double number);
 bool	is_color(char *str);
 float	str_to_float(char *str);
 

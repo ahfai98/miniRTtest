@@ -6,7 +6,7 @@
 /*   By: jyap <jyap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 18:40:26 by jyap              #+#    #+#             */
-/*   Updated: 2024/09/15 13:28:39 by jyap             ###   ########.fr       */
+/*   Updated: 2024/09/15 16:37:24 by jyap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,9 +94,9 @@ t_vect	parse_coord(char **arr, int i, char *line, t_mlxs *mlxs)
 		free_str_arr(split);
 		print_err_exit("Invalid info for coordinates.\n", &mlxs, line);
 	}
-	coord.x = str_to_float(split[0]);
-	coord.y = str_to_float(split[1]);
-	coord.z = str_to_float(split[2]);
+	coord.x = (double)str_to_float(split[0]);
+	coord.y = (double)str_to_float(split[1]);
+	coord.z = (double)str_to_float(split[2]);
 	free_str_arr(split);
 	return (coord);
 }
@@ -124,9 +124,9 @@ t_vect	parse_vector(char **arr, int i, char *line, t_mlxs *mlxs)
 	ret = is_float(split[0]) + is_float(split[1]) + is_float(split[2]);
 	if (ret == 3)
 	{
-		vect.x = str_to_float(split[0]);
-		vect.y = str_to_float(split[1]);
-		vect.z = str_to_float(split[2]);
+		vect.x = (double)str_to_float(split[0]);
+		vect.y = (double)str_to_float(split[1]);
+		vect.z = (double)str_to_float(split[2]);
 		ret += is_range(vect.x) + is_range(vect.y) + is_range(vect.x);
 	}
 	free_str_arr(split);
@@ -171,10 +171,10 @@ unsigned char	parse_camera_fov(char **arr, int i, char *line, t_mlxs *mlxs)
 	return ((unsigned char)fov);
 }
 
-float	parse_dia_height(char **arr, int i, char *line, t_mlxs *mlxs)
+double	parse_dia_height(char **arr, int i, char *line, t_mlxs *mlxs)
 {
 	char	**split;
-	float	ret;
+	double	ret;
 
 	ret = 0;
 	split = ft_split(arr[i], ',');
@@ -195,7 +195,7 @@ float	parse_dia_height(char **arr, int i, char *line, t_mlxs *mlxs)
 		free_str_arr(arr);
 		print_err_exit("Diameter/Height must be a float.\n", &mlxs, line);
 	}
-	ret = str_to_float(arr[i]);
+	ret = (double)str_to_float(arr[i]);
 	if (ret <= 0)
 	{
 		free_str_arr(arr);
