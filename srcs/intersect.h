@@ -6,7 +6,7 @@
 /*   By: jyap <jyap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 16:59:11 by jyap              #+#    #+#             */
-/*   Updated: 2024/09/14 20:25:07 by jyap             ###   ########.fr       */
+/*   Updated: 2024/09/15 17:59:53 by jyap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,12 @@
 
 #include "vect.h"
 #include "color.h"
+#include "obj.h"
 
 typedef struct s_inter
 {
 	int			i;
-	int			type;
+	t_obj_type	type;
 	void		*obj_ptr;
 	double		dist;
 	t_vect		point;

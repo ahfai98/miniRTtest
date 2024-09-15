@@ -6,7 +6,7 @@
 /*   By: jyap <jyap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 17:09:38 by jyap              #+#    #+#             */
-/*   Updated: 2024/09/15 16:39:06 by jyap             ###   ########.fr       */
+/*   Updated: 2024/09/15 18:43:32 by jyap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,11 @@
 #include <stdio.h>
 #include <errno.h>
 #include <stdbool.h>
+
+# define WIN_W 500
+# define WIN_H 500
+
+# define M_PI 3.1415926535897932
 
 void	print_err_exit(char *msg, t_mlxs **mlxs, char *ptr);
 void	print_err(char *msg, void *ptr);
@@ -70,5 +75,21 @@ void	free_all(t_mlxs *mlxs);
 void	parse_plane(char *line, t_mlxs *mlxs, t_obj *new_obj);
 void	parse_sphere(char *line, t_mlxs *mlxs, t_obj *new_obj);
 void	parse_cylinder(char *line, t_mlxs *mlxs, t_obj *new_obj);
+
+double	solve_quadratic(double a, double b, double c);
+
+double	dot_product(t_vect v1, t_vect v2);
+double	distance(t_vect v1, t_vect v2);
+t_vect	mult(t_vect v, double scale);
+t_vect	sub(t_vect v1, t_vect v2);
+t_vect	add(t_vect v1, t_vect v2);
+t_vect	normalize(t_vect v);
+
+void	set_pixel_color(t_image img, int x, int y, int color);
+t_color	get_pixel_color(t_inter *inter);
+
+void	launch_rays_from_camera(t_mlxs *mlxs);
+
+bool	is_closest(t_inter *closest, t_inter *temp);
 
 #endif
