@@ -3,59 +3,57 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jyap <jyap@student.42kl.edu.my>            +#+  +:+       +#+        */
+/*   By: fgrasset <fgrasset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/19 08:20:03 by jyap              #+#    #+#             */
-/*   Updated: 2023/10/19 08:34:53 by jyap             ###   ########.fr       */
+/*   Created: 2022/10/31 20:31:57 by fabien            #+#    #+#             */
+/*   Updated: 2022/11/07 13:05:33 by fgrasset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
+#include "libft.h"
 
-static unsigned int	ft_number_size(int number)
+static int	check_power(int n)
 {
-	unsigned int	len;
+	int	i;
 
-	len = 0;
-	if (number == 0)
-		return (1);
-	if (number < 0)
+	i = 0;
+	if (n < 0)
 	{
-		len++;
+		i++;
+		n *= -1;
 	}
-	while (number != 0)
+	while (n > 9)
 	{
-		number /= 10;
-		len++;
+		n /= 10;
+		i++;
 	}
-	return (len);
+	return (i);
 }
 
-char	*ft_itoa(int i)
+char	*ft_itoa(int n)
 {
-	char			*str;
-	unsigned int	number;
-	unsigned int	len;
+	int		len;
+	char	*res;
 
-	len = ft_number_size(i);
-	str = (char *)malloc(sizeof(char) * (len + 1));
-	if (!str)
+	len = check_power(n) + 1;
+	if (n == -2147483648)
+		return (ft_strdup("-2147483648"));
+	res = malloc((len + 1) * sizeof(char));
+	if (!res)
 		return (NULL);
-	if (i < 0)
+	if (n < 0)
 	{
-		str[0] = '-';
-		number = -i;
+		res[0] = '-';
+		n *= -1;
 	}
-	else
-		number = i;
-	if (i == 0)
-		str[0] = '0';
-	str[len] = '\0';
-	while (number != 0)
+	res[len] = '\0';
+	if (n == 0)
+		res[0] = '0';
+	while (n != '\0')
 	{
-		str[len - 1] = (number % 10) + '0';
-		number /= 10;
+		res[len - 1] = n % 10 + '0';
+		n /= 10;
 		len--;
 	}
-	return (str);
+	return (res);
 }

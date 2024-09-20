@@ -3,34 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   errors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jyap <jyap@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: lfabbian <lfabbian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/14 17:09:42 by jyap              #+#    #+#             */
-/*   Updated: 2024/09/15 13:40:00 by jyap             ###   ########.fr       */
+/*   Created: 2023/08/15 18:41:44 by fabien            #+#    #+#             */
+/*   Updated: 2023/08/16 10:00:41 by lfabbian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "prototypes.h"
+#include "../incs/minirt.h"
 
-void	print_err(char *msg, void *ptr)
+int	print_error(char *error_message)
 {
-	ft_putstr_fd(msg, 2);
-	if (ptr != NULL)
-	{
-		free(ptr);
-		ptr = NULL;
-	}
+	ft_printf("\033[31mError\n%s\033[30m\n", error_message);
+	exit (EXIT_FAILURE);
 }
-
-void	print_err_exit(char *msg, t_mlxs **mlxs, char *ptr)
-{
-	ft_putstr_fd(msg, 2);
-	if (mlxs == NULL || *mlxs == NULL)
-		exit(1);
-	free_all(*mlxs);
-	*mlxs = NULL;
-	if (ptr != NULL)
-		free(ptr);
-	exit (1);
-}
-

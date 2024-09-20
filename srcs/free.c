@@ -3,83 +3,68 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jyap <jyap@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fabien <fabien@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/14 18:13:50 by jyap              #+#    #+#             */
-/*   Updated: 2024/09/15 14:09:48 by jyap             ###   ########.fr       */
+/*   Created: 2023/08/15 18:41:28 by fabien            #+#    #+#             */
+/*   Updated: 2023/08/15 18:41:30 by fabien           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "prototypes.h"
+#include "../incs/minirt.h"
 
-void	free_str_arr(char **arr)
+void	free_objects(t_rt *rt)
+{
+	t_objects	*obj;
+
+	while (rt->sc->obj)
+	{
+		obj = rt->sc->obj->next;
+		free(rt->sc->obj);
+		rt->sc->obj = obj;
+	}
+}
+
+/* checks if the intersections exists, then frees it */
+void	free_inter(t_inter *inter)
+{
+	if (inter)
+		free (inter);
+}
+
+void	free_tab(char **tab)
 {
 	int	i;
 
-	if (arr == NULL)
-		return ;
-	i = -1;
-	while (arr[++i])
-		free(arr[i]);
-	free(arr);
-}
-
-void	free_two_str_arr(char **arr1, char **arr2)
-{
-	free_str_arr(arr1);
-	free_str_arr(arr2);
-}
-
-void	free_obj_list(t_obj *obj)
-{
-	t_obj	*tmp;
-
-	if (obj == NULL)
-		return ;
-	while (obj)
+	i = 0;
+	if (tab)
 	{
-		tmp = obj->next;
-		if (obj->obj_ptr != NULL)
+		while (tab[i])
 		{
-			free(obj->obj_ptr);
-			obj->obj_ptr = NULL;
+			free (tab[i]);
+			i++;
 		}
-		free(obj);
-		obj = tmp;
+		free (tab);
 	}
 }
 
-void free_scene(t_scene *sc)
+void	free_scene(t_scene *scene)
 {
-	if (sc == NULL)
-		return;
-	if (sc->obj != NULL)
-		free_obj_list(sc->obj);
-	free(sc);
+	if (scene->obj)
+		free (scene->obj);
+	free (scene);
 }
 
-void	free_all(t_mlxs *mlxs)
+void	free_rt(t_rt *rt)
 {
-	if (mlxs)
+	if (rt->mlbx)
 	{
-		if (mlxs->img.img)
-			mlx_destroy_image(mlxs->mlx, mlxs->img.img);
-		if (mlxs->mlx_win)
-			mlx_destroy_window(mlxs->mlx, mlxs->mlx_win);
-		if (mlxs->mlx)
-			mlx_destroy_display(mlxs->mlx);
-		if (mlxs->new_obj != NULL)
-		{
-			if (mlxs->new_obj->obj_ptr != NULL)
-			{
-				free(mlxs->new_obj->obj_ptr);
-				mlxs->new_obj->obj_ptr = NULL;
-			}
-			free(mlxs->new_obj);
-			mlxs->new_obj = NULL;
-		}
-		free_scene(mlxs->sc);
-		mlxs->sc = NULL;
-		free(mlxs);
+		free (rt->mlbx->img.addr);
+		free (rt->mlbx->img.img);
+		free (rt->mlbx);
 	}
+	if (rt->sc->obj)
+		free_objects(rt);
+	if (rt->sc)
+		free_scene(rt->sc);
+	free (rt);
 }

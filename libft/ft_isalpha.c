@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   ft_isalpha.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jyap <jyap@student.42kl.edu.my>            +#+  +:+       +#+        */
+/*   By: fgrasset <fgrasset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/17 11:24:52 by jyap              #+#    #+#             */
-/*   Updated: 2023/10/17 14:50:48 by jyap             ###   ########.fr       */
+/*   Created: 2022/10/26 11:27:22 by fgrasset          #+#    #+#             */
+/*   Updated: 2022/10/26 12:01:14 by fgrasset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_isalpha(int i)
+int	ft_isalpha(int c)
 {
-	if ((i >= 'a' && i <= 'z') || (i >= 'A' && i <= 'Z'))
+	if (((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z')))
 		return (1);
-	return (0);
+	else
+		return (0);
 }

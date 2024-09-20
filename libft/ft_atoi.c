@@ -3,34 +3,44 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jyap <jyap@student.42kl.edu.my>            +#+  +:+       +#+        */
+/*   By: fgrasset <fgrasset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/17 18:05:30 by jyap              #+#    #+#             */
-/*   Updated: 2023/10/17 18:10:36 by jyap             ###   ########.fr       */
+/*   Created: 2022/10/29 14:57:05 by fgrasset          #+#    #+#             */
+/*   Updated: 2022/11/07 13:01:15 by fgrasset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "libft.h"
+
+static int	ft_isspace(int c)
+{
+	if ((c >= 9 && c <= 13) || c == 32)
+		return (1);
+	return (0);
+}
 
 int	ft_atoi(const char *str)
 {
 	int	i;
-	int	neg;
-	int	res;
+	int	sgn;
+	int	atoi;
 
 	i = 0;
-	neg = 1;
-	res = 0;
-	while (str[i] == 32 || (str[i] >= 9 && str[i] <= 13))
+	sgn = 1;
+	atoi = 0;
+	while (ft_isspace(str[i]))
 		i++;
-	if (str[i] == '-' || str[i] == '+')
+	if (str[i] == '-')
 	{
-		if (str[i] == '-')
-			neg = -neg;
+		sgn = -1;
 		i++;
 	}
-	while (str[i] >= '0' && str[i] <= '9')
+	else if (str[i] == '+')
+		i++;
+	while (str[i] && ft_isdigit(str[i]))
 	{
-		res = res * 10 + str[i] - '0';
+		atoi = (atoi * 10) + (str[i] - '0');
 		i++;
 	}
-	return (res * neg);
+	return (atoi * sgn);
 }
